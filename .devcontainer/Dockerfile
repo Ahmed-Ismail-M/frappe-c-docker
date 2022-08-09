@@ -80,7 +80,7 @@ WORKDIR /home/frappe
 # Install Python via pyenv
 # Python 3.7 sits here for ERPNext version-12
 # TODO: Remove Python 3.7 when version-12 will not be supported
-ENV PYTHON_VERSION_V12=3.7.12
+# ENV PYTHON_VERSION_V12=3.7.12
 ENV PYTHON_VERSION_V13=3.9.9
 ENV PYTHON_VERSION=3.10.5
 ENV PYENV_ROOT /home/frappe/.pyenv
@@ -88,10 +88,10 @@ ENV PATH $PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH
 
 # From https://github.com/pyenv/pyenv#basic-github-checkout
 RUN git clone --depth 1 https://github.com/pyenv/pyenv.git .pyenv \
-    && pyenv install $PYTHON_VERSION_V12 \
+    # && pyenv install $PYTHON_VERSION_V12 \
     && pyenv install $PYTHON_VERSION_V13 \
     && pyenv install $PYTHON_VERSION \
-    && pyenv global $PYTHON_VERSION $PYTHON_VERSION_V12 $PYTHON_VERSION_v13 \
+    && pyenv global $PYTHON_VERSION $PYTHON_VERSION_v13 \
     && sed -Ei -e '/^([^#]|$)/ {a export PYENV_ROOT="/home/frappe/.pyenv" a export PATH="$PYENV_ROOT/bin:$PATH" a ' -e ':a' -e '$!{n;ba};}' ~/.profile \
     && echo 'eval "$(pyenv init --path)"' >>~/.profile \
     && echo 'eval "$(pyenv init -)"' >>~/.bashrc
@@ -124,12 +124,15 @@ RUN wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | 
     && rm -rf ${NVM_DIR}/.cache \
     && echo 'export NVM_DIR="/home/frappe/.nvm"' >>~/.bashrc \
     && echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm' >> ~/.bashrc \
-    && echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.bashrc \
+    && echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> ~/.bashrc
     # && chown -R frappe:frappe /workspace
+
 
 
 EXPOSE 8000-8005 9000-9005 6787
 
+# RUN chown -R frappe:frappe /workspace
+RUN sudo apt-get update && sudo apt-get install python3-venv -y
 # FROM bench as bench-test
 
 # # Print version and verify bashrc is properly sourced so that everything works
