@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Bench Single Module Runner",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/frappe/frappe/utils/bench_helper.py",
+            "args": [
+                "frappe", "run-tests", "--module", "erpnext.accounts.doctype.tax_withholding_category.test_tax_withholding_category"
+            ],
+            "python": "${workspaceFolder}/../env/bin/python",
+            "cwd": "${workspaceFolder}/../sites",
+            "env": {
+                "DEV_SERVER": "1"
+            }
+        }
+    ]
+    }
